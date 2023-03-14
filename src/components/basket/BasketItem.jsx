@@ -42,7 +42,9 @@ const BasketItem = ({
 
 export default BasketItem
 
-const StyledIconsButton = styled(ButtonMui)(({ theme }) => ({
+const StyledIconsButton = styled(ButtonMui, {
+  shouldForwardProp: (propName) => propName !== 'borderStyle',
+})(({ theme }) => ({
   '&': {
     border: `1px solid${theme.palette.primary.dark}`,
     background: 'none',

@@ -1,0 +1,35 @@
+import { createAsyncThunk } from '@reduxjs/toolkit'
+import authService from '../../axios-api/authService'
+import { STORAGE_KEYS } from '../../lib/constants/common'
+
+export const signUp = createAsyncThunk(
+  'auth/signup',
+  async (payload, { rejectWithValue }) => {
+    try {
+      const { data } = await authService.signUp(payload)
+      const userData = data.data
+      localStorage.getItem(STORAGE_KEYS.AUTH, JSON.stringify(userData))
+      return data.data
+    } catch (error) {
+      return rejectWithValue(error)
+    }
+  }
+)
+
+export const signIn = createAsyncThunk(
+  'auth/signin',
+  async (payload, { rejectWithValue }) => {
+    try {
+      const { data } = await authService.signIn(payload)
+      const userData = data.data
+      localStorage.getItem(STORAGE_KEYS.AUTH, JSON.stringify(userData))
+      return data.data
+    } catch (error) {
+      return rejectWithValue(error)
+    }
+  }
+)
+
+export const signOut = createAsyncThunk('auth/signout', async () => {
+  return localStorage.removeItem(STORAGE_KEYS.AUTH)
+})

@@ -12,8 +12,6 @@ const Summary = () => {
   )
 }
 
-export default Summary
-
 const Container = styled.div`
   height: 527px;
 `
@@ -22,3 +20,4 @@ const ImgStyled = styled.img`
   height: 432px;
   width: 100%;
 `
+export default Summary

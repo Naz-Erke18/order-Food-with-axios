@@ -2,6 +2,7 @@ import { AppBar } from '@mui/material'
 import { styled } from '@mui/material/styles'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 import styledComponent from 'styled-components'
 import { getBasket } from '../../store/basket/thunks'
 import { uiSLiceActions } from '../../store/ui/ui.slice'
@@ -9,8 +10,10 @@ import ButtonMui from '../UI/ButtonMui'
 import BasketButton from './BasketButton'
 
 function Header({ onShowBasket }) {
+  const navigate = useNavigate()
   const dispatch = useDispatch()
 
+  const isAuthorized = useSelector((state) => state.auth.isAuthorized)
   const { items } = useSelector((state) => state.basket)
 
   const themeMode = useSelector((state) => state.ui.themeMode)
@@ -42,6 +45,10 @@ function Header({ onShowBasket }) {
     dispatch(uiSLiceActions.changeTheme(theme))
   }
 
+  const signOutHandler = () => {
+    navigate('/signin')
+  }
+
   return (
     <Container>
       <Logo>ReactMeals</Logo>
@@ -50,7 +57,17 @@ function Header({ onShowBasket }) {
         onClick={onShowBasket}
         count={calculateTotalAmount()}
       />
-      <ThemeBtnStyled onClick={themeChangeHandler}>theme</ThemeBtnStyled>
+      <ThemeBtnStyled onClick={themeChangeHandler}>
+        {' '}
+        Toggle theme
+      </ThemeBtnStyled>
+      {isAuthorized ? (
+        <ThemeBtnStyled onClick={signOutHandler}>Sign Out</ThemeBtnStyled>
+      ) : (
+        <ThemeBtnStyled onClick={() => navigate('/signin')}>
+          Sign In
+        </ThemeBtnStyled>
+      )}
     </Container>
   )
 }
@@ -60,8 +77,9 @@ export default Header
 const ThemeBtnStyled = styled(ButtonMui)(({ theme }) => ({
   '&': {
     background: theme.palette.primary.dark,
-    width: '100px',
-    height: '50px',
+
+    padding: '10px 30px',
+
     border: 'none',
   },
 }))

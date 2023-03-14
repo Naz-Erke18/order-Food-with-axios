@@ -77,8 +77,8 @@ const StyledLabel = styled(InputLabel)(() => ({
 }))
 
 const Card = styledComponent.div`
-  borderRadius: '16px',
-    width: '75%',
-    margin: ' 40px auto',
- 
-`
+  padding: 40px 40px 36px 40px;
+  background: #ffffff;
+  border-radius: 16px;
+  width: 75%;
+  margin: 40px auto;`
